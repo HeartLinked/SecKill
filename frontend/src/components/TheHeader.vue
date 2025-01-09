@@ -18,6 +18,12 @@ const handleSearch = (value: string) => {
     query: { search: value }
   })
 }
+
+const gotoCart = () => {
+  router.push('/cart')
+}
+
+
 </script>
 
 <template>
@@ -36,11 +42,18 @@ const handleSearch = (value: string) => {
         />
 
         <a-badge :count="0">
-          <a-button type="link" class="align-middle">
+          <a-button type="link" class="align-middle" @click="gotoCart">
             <shopping-cart-outlined class="text-xl align-middle" />
           </a-button>
         </a-badge>
 
+        <!-- 购买记录按钮 -->
+        <router-link to="/orders">
+          <a-button type="link" class="align-middle">
+            <history-outlined class="text-xl align-middle" />
+            <span class="ml-2">购买记录</span>
+          </a-button>
+        </router-link>
 
         <template v-if="authStore.isAuthenticated">
           <a-dropdown>
@@ -59,10 +72,10 @@ const handleSearch = (value: string) => {
         </template>
         <template v-else>
           <router-link to="/login">
-            <a-button type="link">登录</a-button>
+            <a-button type="link" class="align-middle">登录</a-button>
           </router-link>
           <router-link to="/register">
-            <a-button type="primary">注册</a-button>
+            <a-button type="primary" class="align-middle">注册</a-button>
           </router-link>
         </template>
       </div>

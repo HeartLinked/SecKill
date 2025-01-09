@@ -26,6 +26,16 @@ const router = createRouter({
       path: '/register',
       name: 'register',
       component: () => import('../views/Register.vue') // 懒加载
+    },
+    {
+      path: '/cart',
+      name: 'Cart',
+        component: () => import('../views/Cart.vue') // 懒加载
+    },
+    {
+      path: '/orders',
+      name: 'Orders',
+      component: () => import('../views/Orders.vue') // 懒加载
     }
   ]
 })

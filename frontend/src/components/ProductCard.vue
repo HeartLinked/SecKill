@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Product } from '../stores/products'
-import { ShoppingCartOutlined, HeartOutlined } from '@ant-design/icons-vue'
+import { ShoppingCartOutlined } from '@ant-design/icons-vue'
 
 defineProps<{
   product: Product
@@ -18,7 +18,7 @@ defineProps<{
     </template>
     <template #actions>
       <shopping-cart-outlined key="cart" />
-      <heart-outlined key="favorite" />
+<!--      <heart-outlined key="favorite" @click="addToCart(product as Product)"/>-->
     </template>
     <a-card-meta :title="product.name">
       <template #description>
