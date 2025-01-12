@@ -1,6 +1,7 @@
 // stores/order.ts
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
+import axios from 'axios'
 import type { Product } from './products'
 
 export interface Order {
@@ -13,15 +14,35 @@ export interface Order {
 export const useOrderStore = defineStore('order', () => {
     const orders = ref<Order[]>([])
 
-    // 添加订单（模拟购买）
-    const addOrder = (items: { product: Product; quantity: number }[]) => {
-        const newOrder: Order = {
-            id: orders.value.length + 1,
-            items,
-            totalPrice: items.reduce((total, item) => total + item.product.price * item.quantity, 0),
-            createdAt: new Date().toLocaleString(),
+    // 从后端获取订单数据
+    const fetchOrders = async () => {
+        try {
+            const response = await axios.get('/api/orders')
+            if (Array.isArray(response.data.data)) {
+                orders.value = response.data.data
+            } else {
+                console.error('Received orders data is not an array', response.data.data)
+            }
+            console.log('Fetched orders:', orders.value)
+        } catch (error) {
+            console.error('Failed to fetch orders:', error)
         }
-        orders.value.push(newOrder)
+    }
+
+    // 添加订单（同步到后端）
+    const addOrder = async (items: { product: Product; quantity: number }[]) => {
+        try {
+            const response = await axios.post('/api/orders', {
+                items: items.map(item => ({
+                    productId: item.product.id,
+                    quantity: item.quantity,
+                })),
+            })
+            const newOrder = response.data.data
+            orders.value.push(newOrder)
+        } catch (error) {
+            console.error('Failed to add order:', error)
+        }
     }
 
     // 获取所有订单
@@ -31,6 +52,7 @@ export const useOrderStore = defineStore('order', () => {
 
     return {
         orders,
+        fetchOrders,
         addOrder,
         getOrders,
     }

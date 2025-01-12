@@ -27,7 +27,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of("http://localhost", "http://39.99.238.81", "http://localhost:3000")); // 允许多个前端 Origin
+        config.setAllowedOrigins(List.of("http://localhost", "http://39.99.238.81", "http://localhost:3000", "http://localhost:8081")); // 允许多个前端 Origin
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS")); // 允许的方法
         config.setAllowedHeaders(List.of("*")); // 允许的 Header
         config.setAllowCredentials(true); // 是否允许 Cookies

@@ -10,35 +10,39 @@ import './style.css'
 
 // 配置 Axios 全局默认后端地址
 // 替换为后端地址，例如 http://localhost:3000/api
-axios.defaults.baseURL = 'http://39.99.238.81:8080'
+// axios.defaults.baseURL = 'http://39.99.238.81:8080'
+axios.defaults.baseURL = 'http://localhost:8080'
 axios.defaults.timeout = 30000 // 可选，设置请求超时时间（单位：毫秒）
 
 // // 设置请求拦截器
-// axios.interceptors.request.use(
-//     config => {
-//         // 优先从 sessionStorage 获取 token，因为它通常用于短期会话
-//         let token = sessionStorage.getItem('authToken');
+axios.interceptors.request.use(
+    config => {
+        // 优先从 sessionStorage 获取 token，因为它通常用于短期会话
+        let token = sessionStorage.getItem('authToken');
 
-//         // 如果没有找到，尝试从 localStorage 获取
-//         if (!token) {
-//             console.log("no token!")
-//             token = localStorage.getItem('authToken');
-//         }
+        // 如果没有找到，尝试从 localStorage 获取
+        if (!token) {
+            console.log("no token!")
+            token = localStorage.getItem('authToken');
+            if(!token){
+                console.log("no token2!")
+            }
+        }
 
-//         console.log('Token being sent with request:', token);
+        console.log('Token being sent with request:', token);
 
-//         // 如果有 token，设置请求头
-//         if (token) {
-//             config.headers['Authorization'] = 'Bearer ' + token;
-//         }
+        // 如果有 token，设置请求头
+        if (token) {
+            config.headers['Authorization'] = 'Bearer ' + token;
+        }
 
-//         return config;
-//     },
-//     error => {
-//         // 请求出错时的处理
-//         return Promise.reject(error);
-//     }
-// );
+        return config;
+    },
+    error => {
+        // 请求出错时的处理
+        return Promise.reject(error);
+    }
+);
 
 const app = createApp(App)
 

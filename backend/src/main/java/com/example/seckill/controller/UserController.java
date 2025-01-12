@@ -2,8 +2,9 @@ package com.example.seckill.controller;
 
 import com.example.seckill.entity.User;
 import com.example.seckill.service.UserService;
-import com.example.seckill.service.impl.UserServiceImpl;
 import com.example.seckill.util.RSAUtil;
+import jakarta.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.example.seckill.entity.LoginRequest;
@@ -73,6 +74,17 @@ public class UserController {
             // 返回失败响应
             return new Response(400, e.getMessage(), null);
         }
+    }
+
+    @GetMapping("/userInfo")
+    public Response getUserInfo(HttpServletRequest request) {
+        Long userId = (Long) request.getAttribute("userId");
+        String username = (String) request.getAttribute("username");
+        User user = userService.findById(userId);
+        Map<String, Object> data = new HashMap<>();
+        data.put("userID", userId);
+        data.put("user", user);
+        return new Response(200, "获取用户信息成功", data);
     }
 
 

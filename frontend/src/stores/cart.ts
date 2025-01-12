@@ -54,6 +54,7 @@ import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import axios from 'axios'
 import type { Product } from './products'
+import {message} from "ant-design-vue";
 
 export const useCartStore = defineStore('cart', () => {
     const cartItems = ref<{ product: Product; quantity: number }[]>([])
@@ -129,6 +130,28 @@ export const useCartStore = defineStore('cart', () => {
         return cartItems.value.reduce((total, item) => total + item.product.price * item.quantity, 0)
     })
 
+    const purchase = async () => {
+        try {
+            // 假设你有一个 API 客户端可以发送请求
+            const response = await axios.post('/api/purchase', {
+                    items: cartItems.value,
+            })
+
+            if (response.data.code === 200) {
+                message.success('购买成功！')
+            } else {
+                // 使用后端返回的错误信息
+                message.error(response.data.message || '购买失败，请检查您的信息')
+            }
+
+            // 购买成功后清空购物车
+            clearCart()
+        } catch (error) {
+            console.error('购买失败:', error)
+            alert('购买失败，请重试。')
+        }
+    }
+
     // 初始化时获取购物车数据
     fetchCart()
 
@@ -139,6 +162,7 @@ export const useCartStore = defineStore('cart', () => {
         removeFromCart,
         updateQuantity,
         totalPrice,
-        clearCart
+        clearCart,
+        purchase
     }
 })

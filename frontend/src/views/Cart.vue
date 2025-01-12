@@ -65,6 +65,14 @@ onMounted(async () => {
         >
           清空购物车
         </button>
+
+        <!-- 购买按钮 -->
+        <button
+            @click="cartStore.purchase"
+            class="ml-4 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-700"
+        >
+          购买
+        </button>
       </div>
     </div>
   </div>

@@ -9,16 +9,7 @@ const productStore = useProductStore()
 // 加载订单数据
 onMounted(async () => {
   await productStore.fetchProducts() // 确保商品数据已加载
-  // 模拟一些订单数据（实际项目中应从后端获取）
-  if (orderStore.orders.length === 0) {
-    orderStore.addOrder([
-      { product: productStore.products[0], quantity: 2 },
-      { product: productStore.products[1], quantity: 1 },
-    ])
-    orderStore.addOrder([
-      { product: productStore.products[2], quantity: 3 },
-    ])
-  }
+  await orderStore.fetchOrders() // 从后端获取订单数据
 })
 </script>
 
