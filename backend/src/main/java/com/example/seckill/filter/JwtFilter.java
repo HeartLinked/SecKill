@@ -1,7 +1,10 @@
 package com.example.seckill.filter;
 
+import com.example.seckill.controller.UserController;
 import com.example.seckill.util.JwtUtil;
 import io.jsonwebtoken.Claims;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import jakarta.servlet.*;
@@ -11,6 +14,7 @@ import java.io.IOException;
 
 @Component
 public class JwtFilter implements Filter {
+    private static final Logger logger = LoggerFactory.getLogger(JwtFilter.class);
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
@@ -25,6 +29,10 @@ public class JwtFilter implements Filter {
                 // 将用户信息存储在请求属性中，便于后续使用
                 httpRequest.setAttribute("userId", claims.get("userId"));
                 httpRequest.setAttribute("username", claims.getSubject());
+
+                logger.info("userId = {}", claims.get("userId"));
+                logger.info("username = {}", claims.getSubject());
+
             } catch (Exception e) {
                 httpResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Token 无效或已过期");
                 return;
