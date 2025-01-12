@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { onMounted } from 'vue'
 import { useCartStore } from '../stores/cart'
 import { useProductStore } from '../stores/products'
 import ProductCard from '../components/ProductCard.vue'
