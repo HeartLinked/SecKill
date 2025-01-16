@@ -10,6 +10,7 @@ import com.example.seckill.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -32,7 +33,20 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Order createOrder(List<OrderController.OrderItemRequest> orderItemRequests) {
+    public Page<Order> getOrders(int page, int size, Integer userId) {
+        Pageable pageable = PageRequest.of(page - 1, size);
+
+        if (userId != null) {
+            // 将 Integer 转换为 Long
+            Long userIdLong = userId.longValue();
+            return orderRepository.findByUserId(userIdLong, pageable);
+        } else {
+            return orderRepository.findAll(pageable);
+        }
+    }
+
+    @Override
+    public Order createOrder(List<OrderController.OrderItemRequest> orderItemRequests, Integer userId) {
         Order order = new Order();
         List<OrderItem> orderItems = orderItemRequests.stream()
                 .map(request -> {
@@ -47,6 +61,7 @@ public class OrderServiceImpl implements OrderService {
 
         order.setItems(orderItems);
         order.setCreatedAt(LocalDateTime.now());
+        order.setUserId(userId.longValue());
 
         // 计算总价
         BigDecimal totalPrice = orderItems.stream()

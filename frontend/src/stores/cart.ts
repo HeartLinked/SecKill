@@ -132,10 +132,14 @@ export const useCartStore = defineStore('cart', () => {
 
     const purchase = async () => {
         try {
-            // 假设你有一个 API 客户端可以发送请求
-            const response = await axios.post('/api/purchase', {
-                    items: cartItems.value,
-            })
+            // 转换 cartItems 为后端所需的格式
+            const orderItems = cartItems.value.map(item => ({
+                productId: item.product.id,
+                quantity: item.quantity
+            }))
+
+            // 直接发送 orderItems 数组
+            const response = await axios.post('/api/orders', orderItems)
 
             if (response.data.code === 200) {
                 message.success('购买成功！')

@@ -56,6 +56,10 @@ export const useAuthStore = defineStore('auth', () => {
     user.value = null
     isAuthenticated.value = false
   }
+  
+  function setAuthenticated(value: boolean) {
+    isAuthenticated.value = value
+  }
 
-  return { user, isAuthenticated, login, register, logout }
+  return { user, isAuthenticated, login, register, logout, setAuthenticated }
 })

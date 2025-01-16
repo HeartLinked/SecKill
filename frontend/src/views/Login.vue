@@ -79,8 +79,8 @@ const handleSubmit = async () => {
         localStorage.setItem('authToken', token)
       } else {
         localStorage.removeItem('rememberedUsername') // 未选中时移除
-        sessionStorage.setItem('authToken', token)
       }
+      sessionStorage.setItem('authToken', token)
 
       message.success('登录成功！')
       await router.push('/products')

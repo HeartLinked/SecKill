@@ -1,7 +1,12 @@
 package com.example.seckill.controller;
 
 import com.example.seckill.entity.Order;
+import com.example.seckill.filter.JwtFilter;
 import com.example.seckill.service.OrderService;
+import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.flogger.Flogger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
@@ -15,15 +20,24 @@ import java.util.Map;
 @RequestMapping("/api/orders")
 public class OrderController {
 
+    private static final Logger logger = LoggerFactory.getLogger(OrderController.class);
+
     @Autowired
     private OrderService orderService;
 
     @GetMapping
     public Response getOrders(
             @RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "12") int size
+            @RequestParam(defaultValue = "12") int size,
+            HttpServletRequest request
     ) {
-        Page<Order> orderPage = orderService.getOrders(page, size);
+
+        Integer userId = (Integer) request.getAttribute("userId");
+        String username = (String) request.getAttribute("username");
+        logger.info("get userId = {}", userId);
+        logger.info("get username = {}", username);
+
+        Page<Order> orderPage = orderService.getOrders(page, size, userId);
 
         Map<String, Object> responseMap = new HashMap<>();
         responseMap.put("content", orderPage.getContent());
@@ -36,8 +50,10 @@ public class OrderController {
     }
 
     @PostMapping
-    public Response createOrder(@RequestBody List<OrderItemRequest> orderItemRequests) {
-        Order order = orderService.createOrder(orderItemRequests);
+    public Response createOrder(@RequestBody List<OrderItemRequest> orderItemRequests,
+                                HttpServletRequest request) {
+        Integer userId = (Integer) request.getAttribute("userId");
+        Order order = orderService.createOrder(orderItemRequests, userId);
 
         Map<String, Object> responseMap = new HashMap<>();
         responseMap.put("order", order);

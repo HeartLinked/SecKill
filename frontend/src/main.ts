@@ -34,7 +34,8 @@ app.use(Antd)
 // 初始化时检查 Token 并更新 isAuthenticated 状态
 const initAuthState = () => {
     const authStore = useAuthStore(); // 获取 Store 实例
-    const token = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
+    // const token = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
+    const token =  sessionStorage.getItem('authToken');
     if (token) {
         authStore.setAuthenticated(true); // 更新 isAuthenticated 状态
     } else {
@@ -54,10 +55,10 @@ axios.interceptors.request.use(
         // 如果没有找到，尝试从 localStorage 获取
         if (!token) {
             console.log("no token in sessionStorage!")
-            token = localStorage.getItem('authToken');
-            if(!token){
-                console.log("no token in localStorage!")
-            }
+            // token = localStorage.getItem('authToken');
+            // if(!token){
+            //     console.log("no token in localStorage!")
+            // }
         }
 
         console.log('Token being sent with request:', token);

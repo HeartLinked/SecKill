@@ -37,10 +37,11 @@ public class JwtFilter implements Filter {
                 httpResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Token 无效或已过期");
                 return;
             }
-        } else {
-            httpResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, "缺少 Authorization 头");
-            return;
         }
+//        else {
+//            httpResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, "缺少 Authorization 头");
+//            return;
+//        }
         chain.doFilter(request, response);
     }
 }

@@ -18,8 +18,8 @@ export const useOrderStore = defineStore('order', () => {
     const fetchOrders = async () => {
         try {
             const response = await axios.get('/api/orders')
-            if (Array.isArray(response.data.data)) {
-                orders.value = response.data.data
+            if (Array.isArray(response.data.data.content)) {
+                orders.value = response.data.data.content
             } else {
                 console.error('Received orders data is not an array', response.data.data)
             }

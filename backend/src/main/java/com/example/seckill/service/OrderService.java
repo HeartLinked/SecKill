@@ -8,5 +8,6 @@ import java.util.List;
 
 public interface OrderService {
     Page<Order> getOrders(int page, int size);
-    Order createOrder(List<OrderController.OrderItemRequest> orderItemRequests);
+    Page<Order> getOrders(int page, int size, Integer userId);
+    Order createOrder(List<OrderController.OrderItemRequest> orderItemRequests, Integer userId);
 }

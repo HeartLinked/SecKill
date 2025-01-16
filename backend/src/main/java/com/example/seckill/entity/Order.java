@@ -22,5 +22,7 @@ public class Order {
     private BigDecimal totalPrice;
 
     private LocalDateTime createdAt;
+
+    private Long userId; // 新增的字段
 }
 
