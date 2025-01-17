@@ -11,8 +11,8 @@ import './style.css'
 
 // 配置 Axios 全局默认后端地址
 // 替换为后端地址，例如 http://localhost:3000/api
-axios.defaults.baseURL = 'http://39.99.238.81:8080'
-// axios.defaults.baseURL = 'http://localhost:8080'
+// axios.defaults.baseURL = 'http://39.99.238.81:8080'
+axios.defaults.baseURL = 'http://localhost:8080'
 axios.defaults.timeout = 30000 // 可选，设置请求超时时间（单位：毫秒）
 
 const app = createApp(App)

@@ -3,10 +3,12 @@ import lombok.Data;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
+
 @Entity
 @Table(name = "t_order_item")
 @Data
-public class OrderItem {
+public class OrderItem implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

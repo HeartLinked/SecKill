@@ -1,5 +1,6 @@
 package com.example.seckill.service.impl;
 
+import com.example.seckill.config.RabbitConfig;
 import com.example.seckill.controller.OrderController;
 import com.example.seckill.entity.Order;
 import com.example.seckill.entity.OrderItem;
@@ -7,6 +8,7 @@ import com.example.seckill.entity.Product;
 import com.example.seckill.repository.OrderRepository;
 import com.example.seckill.repository.ProductRepository;
 import com.example.seckill.service.OrderService;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -42,6 +44,17 @@ public class OrderServiceImpl implements OrderService {
             return orderRepository.findByUserId(userIdLong, pageable);
         } else {
             return orderRepository.findAll(pageable);
+        }
+    }
+
+    @RabbitListener(queues = RabbitConfig.ORDER_QUEUE)
+    public void handleNewOrder(Order order) {
+        try {
+            System.out.println("订单监听器收到新订单，准备入库：" + order);
+            orderRepository.save(order);
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
