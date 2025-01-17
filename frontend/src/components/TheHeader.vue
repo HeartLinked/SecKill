@@ -5,7 +5,8 @@ import { useAuthStore } from '../stores/auth'
 import {
   ShoppingCartOutlined,
   UserOutlined,
-  LogoutOutlined
+  LogoutOutlined,
+  FireOutlined // 引入秒杀图标
 } from '@ant-design/icons-vue'
 
 const router = useRouter()
@@ -23,7 +24,10 @@ const gotoCart = () => {
   router.push('/cart')
 }
 
-
+// 跳转到秒杀商品界面
+const gotoSeckill = () => {
+  router.push('/seckill') // 假设秒杀商品的路由是 /seckill
+}
 </script>
 
 <template>
@@ -40,6 +44,12 @@ const gotoCart = () => {
             class="w-64"
             @search="handleSearch"
         />
+
+        <!-- 秒杀商品按钮 -->
+        <a-button type="link" class="align-middle" @click="gotoSeckill">
+          <fire-outlined class="text-xl align-middle" />
+          <span class="ml-2">秒杀商品</span>
+        </a-button>
 
         <a-badge :count="0">
           <a-button type="link" class="align-middle" @click="gotoCart">

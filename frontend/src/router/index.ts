@@ -36,6 +36,11 @@ const router = createRouter({
       path: '/orders',
       name: 'Orders',
       component: () => import('../views/Orders.vue') // 懒加载
+    },
+    {
+      path: '/seckill',
+      name: 'Seckill',
+      component: () => import('../views/kill.vue') // 懒加载
     }
   ]
 })

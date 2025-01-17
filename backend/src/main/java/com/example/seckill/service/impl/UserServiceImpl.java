@@ -5,6 +5,7 @@ import com.example.seckill.repository.UserRepository;
 import com.example.seckill.service.UserService;
 import com.example.seckill.util.PasswordUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import org.slf4j.Logger;
@@ -80,6 +81,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Cacheable(value = "users", key = "#id")
     public User findById(Long id) {
         return userRepository.findById(id).orElse(null);
     }

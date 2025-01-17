@@ -3,10 +3,12 @@ package com.example.seckill.entity;
 import jakarta.persistence.*;
 import java.util.Date;
 import lombok.Data;
+import org.springframework.data.redis.core.RedisHash;
 
 @Data
 @Entity
 @Table(name = "t_user")
+//@RedisHash("users")
 public class User {
 
     @Id
